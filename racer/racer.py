@@ -3,7 +3,7 @@ from pygame.locals import *
 import random, time
 
 pygame.init()
-
+pygame.mixer.init()
 # Настройки
 FPS = 60
 clock = pygame.time.Clock()
@@ -52,6 +52,10 @@ coin_rect.center = (random.randint(40, W - 40), 0)
 INC_SPEED = pygame.USEREVENT + 1
 pygame.time.set_timer(INC_SPEED, 4000)
 
+# Загрузка фоновой музыки
+pygame.mixer.music.load("c:/Users/Еркенур/Desktop/lab8/racer/racer_background.wav")
+pygame.mixer.music.play(-1)  # Воспроизведение музыки в цикле
+
 # Главный игровой цикл
 while True:
     for event in pygame.event.get():
@@ -68,7 +72,7 @@ while True:
     # Отображение монет
     coins_v = font_small.render(f"X{str(COINS)}", True, BLACK)
     SC.blit(coins_v, (50, 50))
-
+    
     # Движение игрока
     pressed_key = pygame.key.get_pressed()
     if player_rect.left > 1:
@@ -93,6 +97,8 @@ while True:
     # Столкновение игрока с врагами
     if player_rect.colliderect(enemy_rect):
         pygame.mixer.Sound("c:/Users/Еркенур/Desktop/lab8/racer/racer_crash.wav").play()  # Проигрывание звука
+        pygame.mixer.music.stop()  # Остановка фоновой музыки
+        m = True
         time.sleep(0.5)
 
         SC.fill(RED)

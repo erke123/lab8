@@ -110,6 +110,7 @@ while True:
 
     SC.blit(bg, (0, 0))  # Отрисовка фона
     SC.blit(coin_icon, (10, 35))  # Отображение иконки монеты
+    
 
     # Отображение монет
     coins_v = font_small.render(f"X{str(COINS)}", True, BLACK)

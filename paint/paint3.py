@@ -7,8 +7,8 @@ f = 60  # FPS
 clock = pygame.time.Clock()
 draw = False
 radius = 5
-colors = {'white': (255, 255, 255), 'black': (0, 0, 0), 'red': (255, 0, 0), 'green': (0, 255, 0), 'blue': (0, 0, 255), 
-          'orange': (252, 154, 8), 'yellow': (252, 248, 3), 'pink': (252, 3, 252), 'purple': (169, 3, 252), 
+colors = {'white': (255, 255, 255), 'black': (0, 0, 0), 'red': (255, 0, 0), 'green': (0, 255, 0), 'blue': (0, 0, 255),
+          'orange': (252, 154, 8), 'yellow': (252, 248, 3), 'pink': (252, 3, 252), 'purple': (169, 3, 252),
           'gray': (206, 204, 207)}
 
 # Шрифт
@@ -34,11 +34,12 @@ screen.fill(WHITE)
 mode = 'pen'
 color = BLACK
 
-# Загружаем изображение ластика
+# Загружаем изображения инструментов
 eraser = pygame.image.load('c:/Users/Еркенур/Desktop/lab8/paint/eraser-removebg-preview.png')
 eraser = pygame.transform.scale(eraser, (50, 50))  # Масштабируем изображение до нужного размера
 penn = pygame.image.load('c:/Users/Еркенур/Desktop/lab8/paint/R.png')
 penn = pygame.transform.scale(penn, (50, 50))
+
 # Функция рисования линии
 def drawLine(screen, start, end, width, color):
     x1, y1 = start
@@ -64,6 +65,106 @@ def drawLine(screen, start, end, width, color):
             x = (-C - B * y) / A
             pygame.draw.circle(screen, color, (x, y), width)
 
+
+def drawCircle(screen, start, end, width, color): 
+    # Extract x and y coordinates of start and end points
+    x1 = start[0]  # Extract x-coordinate of the start point
+    x2 = end[0]  # Extract x-coordinate of the end point
+    y1 = start[1]  # Extract y-coordinate of the start point
+    y2 = end[1]  # Extract y-coordinate of the end point
+    
+    # Calculate the center of the circle
+    x = (x1 + x2) / 2  # Calculate the center of the circle along the x-axis
+    y = (y1 + y2) / 2  # Calculate the center of the circle along the y-axis
+    
+    # Calculate the radius of the circle
+    radius = abs(x1 - x2) / 2  # Calculate the radius of the circle
+    
+    # Draw the circle on the screen
+    pygame.draw.circle(screen, pygame.Color(color), (x, y), radius, width)  # Draw the circle on the screen
+
+ 
+ 
+def drawRectangle(screen, start, end, width, color): 
+    # Extract x and y coordinates of start and end points
+    x1 = start[0]  # Extract x-coordinate of the start point
+    x2 = end[0]  # Extract x-coordinate of the end point
+    y1 = start[1]  # Extract y-coordinate of the start point
+    y2 = end[1]  # Extract y-coordinate of the end point
+    
+    # Calculate the width and height of the rectangle
+    widthr = abs(x1 - x2)  # Calculate the width of the rectangle
+    height = abs(y1 - y2)  # Calculate the height of the rectangle
+    
+    # Draw the rectangle on the screen based on the position of start and end points
+    if x2 > x1 and y2 > y1: 
+        pygame.draw.rect(screen, pygame.Color(color), (x1, y1, widthr, height), width)  # Draw the rectangle on the screen
+    if y2 > y1 and x1 > x2: 
+        pygame.draw.rect(screen, pygame.Color(color), (x2, y1, widthr, height), width)  # Draw the rectangle on the screen
+    if x1 > x2 and y1 > y2: 
+        pygame.draw.rect(screen, pygame.Color(color), (x2, y2, widthr, height), width)  # Draw the rectangle on the screen
+    if x2 > x1 and y1 > y2: 
+        pygame.draw.rect(screen, pygame.Color(color), (x1, y2, widthr, height), width)  # Draw the rectangle on the screen
+
+     
+ 
+ 
+def drawSquare(screen, start, end, color): 
+    x1 = start[0] 
+    x2 = end[0] 
+    y1 = start[1] 
+    y2 = end[1] 
+    mn = min(abs(x2 - x1), abs(y2 - y1)) 
+ 
+ 
+    if x2 > x1 and y2 > y1: 
+        pygame.draw.rect(screen, pygame.Color(color), (x1, y1, mn, mn)) 
+    if y2 > y1 and x1 > x2: 
+        pygame.draw.rect(screen, pygame.Color(color), (x2, y1, mn, mn)) 
+    if x1 > x2 and y1 > y2: 
+        pygame.draw.rect(screen, pygame.Color(color), (x2, y2, mn, mn)) 
+    if x2 > x1 and y1 > y2: 
+        pygame.draw.rect(screen, pygame.Color(color), (x1, y2, mn, mn)) 
+ 
+def drawRightTriangle(screen, start, end, color): 
+    x1 = start[0] 
+    x2 = end[0] 
+    y1 = start[1] 
+    y2 = end[1] 
+     
+    if x2 > x1 and y2 > y1: 
+        pygame.draw.polygon(screen, pygame.Color(color), ((x1, y1), (x2, y2), (x1, y2))) 
+    if y2 > y1 and x1 > x2: 
+        pygame.draw.polygon(screen, pygame.Color(color), ((x1, y1), (x2, y2), (x1, y2))) 
+    if x1 > x2 and y1 > y2: 
+        pygame.draw.polygon(screen, pygame.Color(color), ((x1, y1), (x2, y2), (x2, y1))) 
+    if x2 > x1 and y1 > y2: 
+        pygame.draw.polygon(screen, pygame.Color(color), ((x1, y1), (x2, y2), (x2, y1))) 
+ 
+ 
+def drawEquilateralTriangle(screen, start, end, width, color): 
+    x1 = start[0] 
+    x2 = end[0] 
+    y1 = start[1] 
+    y2 = end[1] 
+ 
+    width_b = abs(x2 - x1) 
+    height = (3**0.5) * width_b / 2 
+ 
+    if y2 > y1: 
+        pygame.draw.polygon(screen, pygame.Color(color), ((x1, y2), (x2, y2), ((x1 + x2) / 2, y2 - height)), width) 
+    else: 
+        pygame.draw.polygon(screen, pygame.Color(color), ((x1, y1), (x2, y1), ((x1 + x2) / 2, y1 - height))) 
+     
+ 
+def drawRhombus(screen, start, end, width, color): 
+    x1 = start[0] 
+    x2 = end[0] 
+    y1 = start[1] 
+    y2 = end[1] 
+    pygame.draw.lines(screen, pygame.Color(color), True, (((x1 + x2) / 2, y1), (x1, (y1 + y2) / 2), ((x1 + x2) / 2, y2), (x2, (y1 + y2) / 2)), width) 
+ 
+
 # Переменные
 draw_area = pygame.Surface((1000, 600))
 draw_area_rect = draw_area.get_rect(topleft=(0, 183))
@@ -85,6 +186,13 @@ while True:
                 mode = 'erase'  # Ластик
             elif event.key == pygame.K_q:
                 screen.fill(WHITE)  # Очистка экрана
+            elif event.key == pygame.K_r:
+                mode = 'rectangle'
+                  # Прямоугольник
+            elif event.key == pygame.K_c:
+                mode = 'circle'  # Круг
+            elif event.key == pygame.K_s:
+                mode = 'square'  # Квадрат
 
         # Обработка нажатия кнопки мыши
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -127,6 +235,12 @@ while True:
                         drawLine(screen, prevPos, event.pos, radius, color)
                     elif mode == 'erase':
                         drawLine(screen, prevPos, event.pos, radius, WHITE)
+                    elif mode == 'rectangle':
+                        drawRectangle(screen, prevPos, event.pos, radius, color)
+                    elif mode == 'circle':
+                        drawCircle(screen, prevPos, event.pos, radius, color)
+                    elif mode == 'square':
+                        drawSquare(screen, prevPos, event.pos, color)
                 prevPos = event.pos
 
     # Отображение иконок для выбора цвета
